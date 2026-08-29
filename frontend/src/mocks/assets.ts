@@ -1,0 +1,188 @@
+/**
+ * Phase 2.1: Mock Asset Data
+ * 
+ * Development/demo data only. No backend connected.
+ */
+import { Asset, AssetListItem } from "@/types/domain";
+
+export const mockAssets: Asset[] = [
+  {
+    id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    name: "Web Server 01",
+    type: "server",
+    status: "active",
+    manufacturer: "Dell",
+    model: "PowerEdge R750",
+    serialNumber: "SN-WS01-2024001",
+    purchaseDate: "2023-06-15T00:00:00Z",
+    warrantyExpiry: "2026-06-15T00:00:00Z",
+    locationId: "loc-001",
+    businessUnitId: "bu-001",
+    ownerId: "owner-001",
+    costCenter: "CC-IT-001",
+    tags: ["production", "web", "critical"],
+    metadata: { rack: "Rack A1", rackUnit: "U12" },
+    createdAt: "2023-06-15T10:00:00Z",
+    updatedAt: "2024-12-01T08:30:00Z",
+  },
+  {
+    id: "b2c3d4e5-f6a7-8901-bcde-f12345678901",
+    name: "Developer Laptop 03",
+    type: "laptop",
+    status: "active",
+    manufacturer: "Apple",
+    model: "MacBook Pro 16-inch",
+    serialNumber: "SN-LP03-2024002",
+    purchaseDate: "2024-01-20T00:00:00Z",
+    warrantyExpiry: "2027-01-20T00:00:00Z",
+    locationId: "loc-002",
+    businessUnitId: "bu-002",
+    ownerId: "owner-002",
+    costCenter: "CC-ENG-002",
+    tags: ["engineering", "development"],
+    metadata: { os: "macOS Sonoma", ram: "32GB" },
+    createdAt: "2024-01-20T09:00:00Z",
+    updatedAt: "2024-11-28T14:15:00Z",
+  },
+  {
+    id: "c3d4e5f6-a7b8-9012-cdef-123456789012",
+    name: "Network Switch Core",
+    type: "network",
+    status: "active",
+    manufacturer: "Cisco",
+    model: "Catalyst 9300",
+    serialNumber: "SN-NS01-2023003",
+    purchaseDate: "2023-03-10T00:00:00Z",
+    warrantyExpiry: "2026-03-10T00:00:00Z",
+    locationId: "loc-001",
+    businessUnitId: "bu-001",
+    ownerId: "owner-003",
+    costCenter: "CC-IT-001",
+    tags: ["network", "infrastructure", "critical"],
+    metadata: { ports: 48, uplink: "10G" },
+    createdAt: "2023-03-10T08:00:00Z",
+    updatedAt: "2024-10-15T11:00:00Z",
+  },
+  {
+    id: "d4e5f6a7-b8c9-0123-defa-234567890123",
+    name: "Storage Array Pro",
+    type: "storage",
+    status: "maintenance",
+    manufacturer: "NetApp",
+    model: "AFF A800",
+    serialNumber: "SN-SA01-2022004",
+    purchaseDate: "2022-11-05T00:00:00Z",
+    warrantyExpiry: "2025-11-05T00:00:00Z",
+    locationId: "loc-003",
+    businessUnitId: "bu-003",
+    ownerId: "owner-004",
+    costCenter: "CC-DATA-003",
+    tags: ["storage", "san"],
+    metadata: { capacity: "100TB", raid: "RAID-6" },
+    createdAt: "2022-11-05T07:00:00Z",
+    updatedAt: "2024-12-10T09:45:00Z",
+  },
+  {
+    id: "e5f6a7b8-c9d0-1234-efab-345678901234",
+    name: "Cloud Database Instance",
+    type: "cloud",
+    status: "active",
+    manufacturer: "AWS",
+    model: "RDS PostgreSQL",
+    serialNumber: "N/A",
+    purchaseDate: "2024-02-01T00:00:00Z",
+    warrantyExpiry: "2027-02-01T00:00:00Z",
+    locationId: "loc-004",
+    businessUnitId: "bu-001",
+    ownerId: "owner-001",
+    costCenter: "CC-IT-001",
+    tags: ["cloud", "database", "production"],
+    metadata: { instanceType: "db.r6g.2xlarge", engine: "PostgreSQL 15" },
+    createdAt: "2024-02-01T12:00:00Z",
+    updatedAt: "2024-12-05T16:20:00Z",
+  },
+  {
+    id: "f6a7b8c9-d0e1-2345-fabc-456789012345",
+    name: "Mobile Device 07",
+    type: "mobile",
+    status: "inactive",
+    manufacturer: "Samsung",
+    model: "Galaxy S24",
+    serialNumber: "SN-MD07-2024005",
+    purchaseDate: "2024-04-10T00:00:00Z",
+    warrantyExpiry: "2027-04-10T00:00:00Z",
+    locationId: "loc-002",
+    businessUnitId: "bu-002",
+    ownerId: "owner-005",
+    costCenter: "CC-MKT-002",
+    tags: ["mobile", "sales"],
+    metadata: { os: "Android 14" },
+    createdAt: "2024-04-10T08:00:00Z",
+    updatedAt: "2024-09-20T10:00:00Z",
+  },
+  {
+    id: "a7b8c9d0-e1f2-3456-abcd-567890123456",
+    name: "Software License - IDE",
+    type: "software",
+    status: "active",
+    manufacturer: "JetBrains",
+    model: "IntelliJ IDEA Ultimate",
+    serialNumber: "LIC-IDE-2024-001",
+    purchaseDate: "2024-03-01T00:00:00Z",
+    warrantyExpiry: "2025-03-01T00:00:00Z",
+    locationId: "loc-002",
+    businessUnitId: "bu-002",
+    ownerId: "owner-002",
+    costCenter: "CC-ENG-002",
+    tags: ["software", "license", "development"],
+    metadata: { seats: 15, subscription: "annual" },
+    createdAt: "2024-03-01T09:00:00Z",
+    updatedAt: "2024-11-15T13:00:00Z",
+  },
+  {
+    id: "b8c9d0e1-f2a3-4567-bcde-678901234567",
+    name: "Backup Server 02",
+    type: "server",
+    status: "retired",
+    manufacturer: "HP",
+    model: "ProLiant DL380",
+    serialNumber: "SN-BS02-2021006",
+    purchaseDate: "2021-08-20T00:00:00Z",
+    warrantyExpiry: "2024-08-20T00:00:00Z",
+    locationId: "loc-001",
+    businessUnitId: "bu-001",
+    ownerId: "owner-003",
+    costCenter: "CC-IT-001",
+    tags: ["backup", "legacy"],
+    metadata: { rack: "Rack B2", rackUnit: "U8" },
+    createdAt: "2021-08-20T06:00:00Z",
+    updatedAt: "2024-06-30T17:00:00Z",
+  },
+];
+
+export function getAssetById(id: string): Asset | undefined {
+  return mockAssets.find((a) => a.id === id);
+}
+
+export function getAssetsByStatus(status: string): Asset[] {
+  return mockAssets.filter((a) => a.status === status);
+}
+
+export function getAssetsByType(type: string): Asset[] {
+  return mockAssets.filter((a) => a.type === type);
+}
+
+export function getAssetListItems(): AssetListItem[] {
+  return mockAssets.map(
+    ({ id, name, type, status, locationId, businessUnitId, ownerId, updatedAt }) => ({
+      id,
+      name,
+      type,
+      status,
+      locationId,
+      businessUnitId,
+      ownerId,
+      updatedAt,
+    })
+  );
+}
