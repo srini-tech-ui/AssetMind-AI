@@ -11,6 +11,7 @@
  * - No security decisions are made from this data
  */
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+
 import {
   mockAssets,
   getAssetById,
@@ -18,22 +19,86 @@ import {
   getAssetsByType,
   getAssetListItems,
 } from "./assets";
-import { mockAssetOwners, getOwnerById, getOwnerListItems } from "./owners";
-import { mockRisks, getRisksByAsset, getRisksBySeverity, getRiskListItems } from "./risks";
-import { mockComplianceRecords, getComplianceByAsset, getComplianceByFramework, getComplianceListItems } from "./compliance";
-import { mockLifecycleEvents, getLifecycleByAsset, getLifecycleSummary, getLifecycleEventListItems } from "./lifecycle";
-import { mockCostEntries, getCostsByAsset, getAssetCostSummary, getCostSummaryByPeriod, getCostEntryListItems } from "./costs";
-import { mockRecommendations, getRecommendationsByAsset, getRecommendationsByStatus, getRecommendationListItems } from "./recommendations";
-import { mockApprovals, getApprovalsByStatus, getApprovalsByType, getApprovalListItems } from "./approvals";
-import { mockWorkflows, getWorkflowDefinitions, getWorkflowInstancesByWorkflow, getWorkflowInstanceListItems, mockWorkflowInstances } from "./workflows";
-import { mockAuditEvents, getAuditEventsByResource, getAuditEventsByUser, getAuditEventListItems } from "./audit";
-import { getExplainabilityForRecommendation, getAllExplainabilityEvidence } from "./explainability";
+
+import {
+  mockAssetOwners,
+  getOwnerById,
+  getOwnerListItems,
+} from "./owners";
+
+import {
+  mockRisks,
+  getRisksByAsset,
+  getRisksBySeverity,
+  getRiskListItems,
+} from "./risks";
+
+import {
+  mockComplianceRecords,
+  getComplianceByAsset,
+  getComplianceByFramework,
+  getComplianceListItems,
+} from "./compliance";
+
+import {
+  mockLifecycleEvents,
+  getLifecycleByAsset,
+  getLifecycleSummary,
+  getLifecycleEventListItems,
+} from "./lifecycle";
+
+import {
+  mockCostEntries,
+  getCostsByAsset,
+  getAssetCostSummary,
+  getCostSummaryByPeriod,
+  getCostEntryListItems,
+} from "./costs";
+
+import {
+  mockRecommendations,
+  getRecommendationsByAsset,
+  getRecommendationsByStatus,
+  getRecommendationListItems,
+} from "./recommendations";
+
+import {
+  mockApprovals,
+  getApprovalsByStatus,
+  getApprovalsByType,
+  getApprovalListItems,
+} from "./approvals";
+
+import {
+  mockWorkflows,
+  getWorkflowDefinitions,
+  getWorkflowInstancesByWorkflow,
+  getWorkflowInstanceListItems,
+  mockWorkflowInstances,
+} from "./workflows";
+
+import {
+  mockAuditEvents,
+  getAuditEventsByResource,
+  getAuditEventsByUser,
+  getAuditEventListItems,
+} from "./audit";
+
+import {
+  getExplainabilityForRecommendation,
+  getAllExplainabilityEvidence,
+} from "./explainability";
+
 import {
   mockReconciliations,
   getReconciliationsByStatus,
   getReconciliationsByAsset,
   getReconciliationListItems,
 } from "./reconciliation";
+
+import { getWorkflows } from "@/services/workflowService";
+import { Workflow } from "@/types/domain";
+
 import { useMemo } from "react";
 
 // Check if mocks are enabled
@@ -49,7 +114,7 @@ function createMockQuery<T>(data: T) {
     status: "success" as const,
     refetch: async () => {},
   };
-};
+}
 
 // Reconciliation services
 export const reconciliationService = {
@@ -57,14 +122,17 @@ export const reconciliationService = {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     return createMockQuery(mockReconciliations);
   },
+
   getByStatus: (status: string) => {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     return createMockQuery(getReconciliationsByStatus(status));
   },
+
   getByAsset: (assetId: string) => {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     return createMockQuery(getReconciliationsByAsset(assetId));
   },
+
   getListItems: () => {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     return createMockQuery(getReconciliationListItems());
@@ -72,7 +140,9 @@ export const reconciliationService = {
 };
 
 // TanStack Query hooks for reconciliation
-export const useMockReconciliations = (options?: UseQueryOptions<typeof mockReconciliations>) => {
+export const useMockReconciliations = (
+  options?: UseQueryOptions<typeof mockReconciliations>
+) => {
   return useQuery({
     queryKey: ["mockReconciliations"],
     queryFn: () => mockReconciliations,
@@ -80,7 +150,9 @@ export const useMockReconciliations = (options?: UseQueryOptions<typeof mockReco
   });
 };
 
-export const useMockReconciliationListItems = (options?: UseQueryOptions<ReturnType<typeof getReconciliationListItems>>) => {
+export const useMockReconciliationListItems = (
+  options?: UseQueryOptions<ReturnType<typeof getReconciliationListItems>>
+) => {
   return useQuery({
     queryKey: ["mockReconciliationListItems"],
     queryFn: () => getReconciliationListItems(),
@@ -94,19 +166,23 @@ export const assetService = {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     return createMockQuery(mockAssets);
   },
+
   getById: (id: string) => {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     const asset = getAssetById(id);
     return createMockQuery(asset);
   },
+
   getByStatus: (status: string) => {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     return createMockQuery(getAssetsByStatus(status));
   },
+
   getByType: (type: string) => {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     return createMockQuery(getAssetsByType(type));
   },
+
   getListItems: () => {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     return createMockQuery(getAssetListItems());
@@ -119,11 +195,13 @@ export const ownerService = {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     return createMockQuery(mockAssetOwners);
   },
+
   getById: (id: string) => {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     const owner = getOwnerById(id);
     return createMockQuery(owner);
   },
+
   getListItems: () => {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     return createMockQuery(getOwnerListItems());
@@ -136,14 +214,17 @@ export const riskService = {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     return createMockQuery(mockRisks);
   },
+
   getByAsset: (assetId: string) => {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     return createMockQuery(getRisksByAsset(assetId));
   },
+
   getBySeverity: (severity: string) => {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     return createMockQuery(getRisksBySeverity(severity));
   },
+
   getListItems: () => {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     return createMockQuery(getRiskListItems());
@@ -156,14 +237,17 @@ export const complianceService = {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     return createMockQuery(mockComplianceRecords);
   },
+
   getByAsset: (assetId: string) => {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     return createMockQuery(getComplianceByAsset(assetId));
   },
+
   getByFramework: (framework: string) => {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     return createMockQuery(getComplianceByFramework(framework));
   },
+
   getListItems: () => {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     return createMockQuery(getComplianceListItems());
@@ -176,10 +260,12 @@ export const lifecycleService = {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     return createMockQuery(getLifecycleByAsset(assetId));
   },
+
   getSummary: (assetId: string) => {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     return createMockQuery(getLifecycleSummary(assetId));
   },
+
   getEventListItems: () => {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     return createMockQuery(getLifecycleEventListItems());
@@ -192,14 +278,17 @@ export const costService = {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     return createMockQuery(getCostsByAsset(assetId));
   },
+
   getSummary: (assetId: string) => {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     return createMockQuery(getAssetCostSummary(assetId));
   },
+
   getSummaryByPeriod: () => {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     return createMockQuery(getCostSummaryByPeriod());
   },
+
   getEntryListItems: () => {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     return createMockQuery(getCostEntryListItems());
@@ -212,14 +301,17 @@ export const recommendationService = {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     return createMockQuery(mockRecommendations);
   },
+
   getByAsset: (assetId: string) => {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     return createMockQuery(getRecommendationsByAsset(assetId));
   },
+
   getByStatus: (status: string) => {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     return createMockQuery(getRecommendationsByStatus(status));
   },
+
   getListItems: () => {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     return createMockQuery(getRecommendationListItems());
@@ -232,14 +324,17 @@ export const approvalService = {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     return createMockQuery(mockApprovals);
   },
+
   getByStatus: (status: string) => {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     return createMockQuery(getApprovalsByStatus(status));
   },
+
   getByType: (type: string) => {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     return createMockQuery(getApprovalsByType(type));
   },
+
   getListItems: () => {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     return createMockQuery(getApprovalListItems());
@@ -252,10 +347,12 @@ export const workflowService = {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     return createMockQuery(mockWorkflows);
   },
+
   getInstancesByWorkflow: (workflowId: string) => {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     return createMockQuery(getWorkflowInstancesByWorkflow(workflowId));
   },
+
   getInstanceListItems: () => {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     return createMockQuery(getWorkflowInstanceListItems());
@@ -266,16 +363,21 @@ export const workflowService = {
 export const auditService = {
   getByResource: (resourceType: string, resourceId: string) => {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
-    return createMockQuery(getAuditEventsByResource(resourceType, resourceId));
+    return createMockQuery(
+      getAuditEventsByResource(resourceType, resourceId)
+    );
   },
+
   getByUser: (userId: string) => {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     return createMockQuery(getAuditEventsByUser(userId));
   },
+
   getAll: () => {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     return createMockQuery(mockAuditEvents);
   },
+
   getListItems: () => {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     return createMockQuery(getAuditEventListItems());
@@ -286,8 +388,11 @@ export const auditService = {
 export const explainabilityService = {
   getForRecommendation: (recommendationId: string) => {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
-    return createMockQuery(getExplainabilityForRecommendation(recommendationId));
+    return createMockQuery(
+      getExplainabilityForRecommendation(recommendationId)
+    );
   },
+
   getAllEvidence: () => {
     if (!USE_MOCKS) throw new Error("Mock mode not enabled");
     return createMockQuery(getAllExplainabilityEvidence());
@@ -295,7 +400,9 @@ export const explainabilityService = {
 };
 
 // TanStack Query hooks for mock data
-export const useMockAssets = (options?: UseQueryOptions<typeof mockAssets>) => {
+export const useMockAssets = (
+  options?: UseQueryOptions<typeof mockAssets>
+) => {
   return useQuery({
     queryKey: ["mockAssets"],
     queryFn: () => mockAssets,
@@ -303,7 +410,10 @@ export const useMockAssets = (options?: UseQueryOptions<typeof mockAssets>) => {
   });
 };
 
-export const useMockAssetById = (id: string, options?: UseQueryOptions<typeof mockAssets[0]>) => {
+export const useMockAssetById = (
+  id: string,
+  options?: UseQueryOptions<typeof mockAssets[0]>
+) => {
   return useQuery({
     queryKey: ["mockAsset", id],
     queryFn: () => getAssetById(id),
@@ -312,7 +422,9 @@ export const useMockAssetById = (id: string, options?: UseQueryOptions<typeof mo
   });
 };
 
-export const useMockAssetListItems = (options?: UseQueryOptions<ReturnType<typeof getAssetListItems>>) => {
+export const useMockAssetListItems = (
+  options?: UseQueryOptions<ReturnType<typeof getAssetListItems>>
+) => {
   return useQuery({
     queryKey: ["mockAssetListItems"],
     queryFn: () => getAssetListItems(),
@@ -320,7 +432,9 @@ export const useMockAssetListItems = (options?: UseQueryOptions<ReturnType<typeo
   });
 };
 
-export const useMockRisks = (options?: UseQueryOptions<typeof mockRisks>) => {
+export const useMockRisks = (
+  options?: UseQueryOptions<typeof mockRisks>
+) => {
   return useQuery({
     queryKey: ["mockRisks"],
     queryFn: () => mockRisks,
@@ -328,7 +442,9 @@ export const useMockRisks = (options?: UseQueryOptions<typeof mockRisks>) => {
   });
 };
 
-export const useMockRiskListItems = (options?: UseQueryOptions<ReturnType<typeof getRiskListItems>>) => {
+export const useMockRiskListItems = (
+  options?: UseQueryOptions<ReturnType<typeof getRiskListItems>>
+) => {
   return useQuery({
     queryKey: ["mockRiskListItems"],
     queryFn: () => getRiskListItems(),
@@ -336,7 +452,9 @@ export const useMockRiskListItems = (options?: UseQueryOptions<ReturnType<typeof
   });
 };
 
-export const useMockCompliance = (options?: UseQueryOptions<typeof mockComplianceRecords>) => {
+export const useMockCompliance = (
+  options?: UseQueryOptions<typeof mockComplianceRecords>
+) => {
   return useQuery({
     queryKey: ["mockCompliance"],
     queryFn: () => mockComplianceRecords,
@@ -344,7 +462,9 @@ export const useMockCompliance = (options?: UseQueryOptions<typeof mockComplianc
   });
 };
 
-export const useMockComplianceListItems = (options?: UseQueryOptions<ReturnType<typeof getComplianceListItems>>) => {
+export const useMockComplianceListItems = (
+  options?: UseQueryOptions<ReturnType<typeof getComplianceListItems>>
+) => {
   return useQuery({
     queryKey: ["mockComplianceListItems"],
     queryFn: () => getComplianceListItems(),
@@ -352,7 +472,10 @@ export const useMockComplianceListItems = (options?: UseQueryOptions<ReturnType<
   });
 };
 
-export const useMockRisksByAsset = (assetId: string, options?: UseQueryOptions<ReturnType<typeof getRisksByAsset>>) => {
+export const useMockRisksByAsset = (
+  assetId: string,
+  options?: UseQueryOptions<ReturnType<typeof getRisksByAsset>>
+) => {
   return useQuery({
     queryKey: ["mockRisks", assetId],
     queryFn: () => getRisksByAsset(assetId),
@@ -361,7 +484,12 @@ export const useMockRisksByAsset = (assetId: string, options?: UseQueryOptions<R
   });
 };
 
-export const useMockRecommendationsByAsset = (assetId: string, options?: UseQueryOptions<ReturnType<typeof getRecommendationsByAsset>>) => {
+export const useMockRecommendationsByAsset = (
+  assetId: string,
+  options?: UseQueryOptions<
+    ReturnType<typeof getRecommendationsByAsset>
+  >
+) => {
   return useQuery({
     queryKey: ["mockRecommendations", assetId],
     queryFn: () => getRecommendationsByAsset(assetId),
@@ -370,7 +498,10 @@ export const useMockRecommendationsByAsset = (assetId: string, options?: UseQuer
   });
 };
 
-export const useMockLifecycleByAsset = (assetId: string, options?: UseQueryOptions<ReturnType<typeof getLifecycleByAsset>>) => {
+export const useMockLifecycleByAsset = (
+  assetId: string,
+  options?: UseQueryOptions<ReturnType<typeof getLifecycleByAsset>>
+) => {
   return useQuery({
     queryKey: ["mockLifecycle", assetId],
     queryFn: () => getLifecycleByAsset(assetId),
@@ -379,7 +510,10 @@ export const useMockLifecycleByAsset = (assetId: string, options?: UseQueryOptio
   });
 };
 
-export const useMockCostsByAsset = (assetId: string, options?: UseQueryOptions<ReturnType<typeof getCostsByAsset>>) => {
+export const useMockCostsByAsset = (
+  assetId: string,
+  options?: UseQueryOptions<ReturnType<typeof getCostsByAsset>>
+) => {
   return useQuery({
     queryKey: ["mockCosts", assetId],
     queryFn: () => getCostsByAsset(assetId),
@@ -388,7 +522,10 @@ export const useMockCostsByAsset = (assetId: string, options?: UseQueryOptions<R
   });
 };
 
-export const useMockApprovalsByStatus = (status: string, options?: UseQueryOptions<ReturnType<typeof getApprovalsByStatus>>) => {
+export const useMockApprovalsByStatus = (
+  status: string,
+  options?: UseQueryOptions<ReturnType<typeof getApprovalsByStatus>>
+) => {
   return useQuery({
     queryKey: ["mockApprovals", status],
     queryFn: () => getApprovalsByStatus(status),
@@ -397,26 +534,41 @@ export const useMockApprovalsByStatus = (status: string, options?: UseQueryOptio
   });
 };
 
-export const useMockAuditByResource = (resourceType: string, resourceId: string, options?: UseQueryOptions<ReturnType<typeof getAuditEventsByResource>>) => {
+export const useMockAuditByResource = (
+  resourceType: string,
+  resourceId: string,
+  options?: UseQueryOptions<
+    ReturnType<typeof getAuditEventsByResource>
+  >
+) => {
   return useQuery({
     queryKey: ["mockAudit", resourceType, resourceId],
-    queryFn: () => getAuditEventsByResource(resourceType, resourceId),
+    queryFn: () =>
+      getAuditEventsByResource(resourceType, resourceId),
     enabled: !!resourceType && !!resourceId,
     ...options,
   });
 };
 
-export const useMockExplainability = (recommendationId: string, options?: UseQueryOptions<ReturnType<typeof getExplainabilityForRecommendation>>) => {
+export const useMockExplainability = (
+  recommendationId: string,
+  options?: UseQueryOptions<
+    ReturnType<typeof getExplainabilityForRecommendation>
+  >
+) => {
   return useQuery({
     queryKey: ["mockExplainability", recommendationId],
-    queryFn: () => getExplainabilityForRecommendation(recommendationId),
+    queryFn: () =>
+      getExplainabilityForRecommendation(recommendationId),
     enabled: !!recommendationId,
     ...options,
   });
 };
 
 // Phase 3.2: Approval and Workflow hooks
-export const useMockApprovals = (options?: UseQueryOptions<typeof mockApprovals>) => {
+export const useMockApprovals = (
+  options?: UseQueryOptions<typeof mockApprovals>
+) => {
   return useQuery({
     queryKey: ["mockApprovals"],
     queryFn: () => mockApprovals,
@@ -424,15 +576,32 @@ export const useMockApprovals = (options?: UseQueryOptions<typeof mockApprovals>
   });
 };
 
-export const useMockWorkflows = (options?: UseQueryOptions<typeof mockWorkflows>) => {
+// =====================================================
+// WORKFLOW HOOK
+// Uses backend when VITE_USE_MOCKS=false
+// Uses existing mock data when VITE_USE_MOCKS=true
+// =====================================================
+export const useMockWorkflows = (
+  options?: UseQueryOptions<Workflow[]>
+) => {
   return useQuery({
-    queryKey: ["mockWorkflows"],
-    queryFn: () => mockWorkflows,
+    queryKey: ["workflows"],
+
+    queryFn: (): Promise<Workflow[]> | Workflow[] => {
+      if (USE_MOCKS) {
+        return mockWorkflows;
+      }
+
+      return getWorkflows();
+    },
+
     ...options,
   });
 };
 
-export const useMockWorkflowInstances = (options?: UseQueryOptions<typeof mockWorkflowInstances>) => {
+export const useMockWorkflowInstances = (
+  options?: UseQueryOptions<typeof mockWorkflowInstances>
+) => {
   return useQuery({
     queryKey: ["mockWorkflowInstances"],
     queryFn: () => mockWorkflowInstances,
@@ -441,7 +610,9 @@ export const useMockWorkflowInstances = (options?: UseQueryOptions<typeof mockWo
 };
 
 // Phase 3.3: Audit hook
-export const useMockAuditEvents = (options?: UseQueryOptions<typeof mockAuditEvents>) => {
+export const useMockAuditEvents = (
+  options?: UseQueryOptions<typeof mockAuditEvents>
+) => {
   return useQuery({
     queryKey: ["mockAuditEvents"],
     queryFn: () => mockAuditEvents,
@@ -449,8 +620,10 @@ export const useMockAuditEvents = (options?: UseQueryOptions<typeof mockAuditEve
   });
 };
 
-// Phase 3.1: Recommendations hook (restored after Phase 3.4 regression)
-export const useMockRecommendations = (options?: UseQueryOptions<typeof mockRecommendations>) => {
+// Phase 3.1: Recommendations hook
+export const useMockRecommendations = (
+  options?: UseQueryOptions<typeof mockRecommendations>
+) => {
   return useQuery({
     queryKey: ["mockRecommendations"],
     queryFn: () => mockRecommendations,
